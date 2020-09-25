@@ -39,7 +39,13 @@ public class ChronoPayPlugin extends JavaPlugin {
 
         this.settings.load();
         this.getCommand("cpreload").setExecutor(new ChronoPayCommandExecutor(this));
-        this.getServer().getScheduler().runTaskTimer(this, new PaymentTask(this), 20, 20);
+        this.getServer().getScheduler().runTaskTimer(this, new PaymentTask(this), 0, 20);
+        this.getServer().getScheduler().runTaskTimer(
+            this,
+            new PayoutCycleResetTask(this),
+            0,
+            this.settings.getPayoutCycleResetInterval()
+        );
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
     }
 

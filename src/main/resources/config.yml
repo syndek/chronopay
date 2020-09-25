@@ -3,6 +3,10 @@
 # The number of seconds a player must be online for before each payout.
 payout-interval: 600
 
+# The number of seconds before a payout cycle resets and players who have reached
+# the cap and don't have the bypass permission node can start earning again.
+payout-cycle-reset-interval: 86400
+
 # The amount of money to give to each player on every payout.
 payout-amount: 0.10
 
@@ -13,3 +17,7 @@ checks:
   address: true
   afk: true
   cap: true
+
+messages:
+  payout: ''
+  cycle-reset: ''

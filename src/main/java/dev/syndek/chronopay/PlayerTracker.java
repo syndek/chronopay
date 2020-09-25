@@ -19,6 +19,10 @@ public class PlayerTracker {
         return this.validPlayers;
     }
 
+    public Map<UUID, PlayerData> getPlayerData() {
+        return this.playerData;
+    }
+
     public PlayerData getPlayerData(final UUID uniqueId) {
         return this.playerData.computeIfAbsent(uniqueId, key -> new PlayerData());
     }
