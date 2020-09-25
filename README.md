@@ -9,6 +9,12 @@ and optionally [Essentials](https://github.com/EssentialsX/Essentials) to preven
 
 The plugin also includes an IP address check to prevent players from logging in on multiple accounts to earn money.
 
+## Versioning
+
+ChronoPay is built for Java 8 using Gradle. It should work on pretty much any version of CraftBukkit, Spigot, Paper, etc. that you're running, but feel free to get in contact if you run into any problems.
+
+Version numbers roughly follow the [Semantic Versioning Guidelines](https://semver.org).
+
 ## Configuration
 
 `payout-interval` - The number of seconds a player must be online before a payout. *Default: 300*  
