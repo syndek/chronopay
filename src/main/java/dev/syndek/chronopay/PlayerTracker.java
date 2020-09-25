@@ -40,33 +40,37 @@ public class PlayerTracker {
     }
 
     public void recalculatePlayerValidity(final Player player) {
-        if (this.plugin.getSettings().checkAfk() &&
-            !player.hasPermission("chronopay.bypass.afk") &&
-            this.afkPlayers.contains(player.getUniqueId())
+        if (this.playerFailsAddressCheck(player) ||
+            this.playerFailsAfkCheck(player) ||
+            this.playerFailsCapCheck(player)
         ) {
             this.validPlayers.remove(player);
-            return;
+        } else {
+            this.validPlayers.add(player);
         }
+    }
 
+    public boolean playerFailsAddressCheck(final Player player) {
         if (this.plugin.getSettings().checkAddress() &&
             !player.hasPermission("chronopay.bypass.address")
         ) {
             final Set<UUID> playersAtAddress = this.playersAtAddress.get(player.getAddress().getHostString());
-            if (playersAtAddress != null && playersAtAddress.size() > 1) {
-                this.validPlayers.remove(player);
-                return;
-            }
+            return playersAtAddress != null && playersAtAddress.size() > 1;
         }
 
-        if (this.plugin.getSettings().checkCap() &&
+        return false;
+    }
+
+    public boolean playerFailsAfkCheck(final Player player) {
+        return this.plugin.getSettings().checkAfk() &&
+            !player.hasPermission("chronopay.bypass.afk") &&
+            this.afkPlayers.contains(player.getUniqueId());
+    }
+
+    public boolean playerFailsCapCheck(final Player player) {
+        return this.plugin.getSettings().checkCap() &&
             !player.hasPermission("chronopay.bypass.cap") &&
-            this.getPlayerData(player.getUniqueId()).getPayedMoney() > this.plugin.getSettings().getPayoutCap()
-        ) {
-            this.validPlayers.remove(player);
-            return;
-        }
-
-        this.validPlayers.add(player);
+            this.getPlayerData(player.getUniqueId()).getPayedMoney() > this.plugin.getSettings().getPayoutCap();
     }
 
     public void addPlayerAddress(final Player player) {
