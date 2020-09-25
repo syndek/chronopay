@@ -22,3 +22,6 @@ checks:
 messages:
   payout: ''
   cycle-reset: ''
+  cap-reached: ''
+  multiple-accounts: ''
+  gone-afk: ''
