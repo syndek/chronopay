@@ -1,8 +1,6 @@
 package dev.syndek.chronopay;
 
-import net.ess3.api.IEssentials;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,7 +8,6 @@ public class ChronoPayPlugin extends JavaPlugin {
     private final ChronoPaySettings settings      = new ChronoPaySettings(this);
     private final PlayerTracker     playerTracker = new PlayerTracker(this);
     private       Economy           economy;
-    private       IEssentials       essentials;
 
     @Override
     public void onEnable() {
@@ -28,15 +25,6 @@ public class ChronoPayPlugin extends JavaPlugin {
             return;
         }
 
-        // Hook Essentials, if available.
-        final Plugin essentialsPlugin = this.getServer().getPluginManager().getPlugin("Essentials");
-        if (essentialsPlugin != null) {
-            this.essentials = (IEssentials) essentialsPlugin;
-            this.getLogger().info("Successfully hooked Essentials!");
-        } else {
-            this.getLogger().warning("Failed to hook Essentials! AFK checking will not work.");
-        }
-
         this.settings.load();
         this.getCommand("cpreload").setExecutor(new ChronoPayCommandExecutor(this));
         this.getServer().getScheduler().runTaskTimer(this, new PaymentTask(this), 0, 20);
@@ -46,8 +34,10 @@ public class ChronoPayPlugin extends JavaPlugin {
             0,
             this.settings.getPayoutCycleResetInterval() * 20
         );
-        this.getServer().getPluginManager().registerEvents(new PlayerAfkListener(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
+        if (this.getServer().getPluginManager().getPlugin("Essentials") != null) {
+            this.getServer().getPluginManager().registerEvents(new PlayerAfkListener(this), this);
+        }
     }
 
     public ChronoPaySettings getSettings() {
@@ -56,10 +46,6 @@ public class ChronoPayPlugin extends JavaPlugin {
 
     public PlayerTracker getPlayerTracker() {
         return this.playerTracker;
-    }
-
-    public IEssentials getEssentials() {
-        return this.essentials;
     }
 
     public Economy getEconomy() {
