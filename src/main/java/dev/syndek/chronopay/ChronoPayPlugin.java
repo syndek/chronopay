@@ -6,18 +6,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class ChronoPayPlugin extends JavaPlugin {
-    private final ChronoPaySettings  settings         = new ChronoPaySettings(this);
-    private final Map<UUID, Float>   payedMoneyMap    = new HashMap<>();
-    private final Map<UUID, String>  onlineAddressMap = new HashMap<>();
-    private final Map<UUID, Integer> onlineTimeMap    = new HashMap<>();
-
-    private Economy     economy;
-    private IEssentials essentials;
+    private final ChronoPaySettings settings      = new ChronoPaySettings(this);
+    private final PlayerTracker     playerTracker = new PlayerTracker(this);
+    private       Economy           economy;
+    private       IEssentials       essentials;
 
     @Override
     public void onEnable() {
@@ -54,16 +47,8 @@ public class ChronoPayPlugin extends JavaPlugin {
         return this.settings;
     }
 
-    public Map<UUID, Float> getPayedMoneyMap() {
-        return this.payedMoneyMap;
-    }
-
-    public Map<UUID, String> getOnlineAddressMap() {
-        return this.onlineAddressMap;
-    }
-
-    public Map<UUID, Integer> getOnlineTimeMap() {
-        return this.onlineTimeMap;
+    public PlayerTracker getPlayerTracker() {
+        return this.playerTracker;
     }
 
     public IEssentials getEssentials() {
