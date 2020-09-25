@@ -44,7 +44,7 @@ public class ChronoPayPlugin extends JavaPlugin {
             this,
             new PayoutCycleResetTask(this),
             0,
-            this.settings.getPayoutCycleResetInterval()
+            this.settings.getPayoutCycleResetInterval() * 20
         );
         this.getServer().getPluginManager().registerEvents(new PlayerAfkListener(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
