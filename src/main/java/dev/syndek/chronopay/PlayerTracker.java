@@ -54,8 +54,19 @@ public class PlayerTracker {
             final Set<UUID> playersAtAddress = this.playersAtAddress.get(player.getAddress().getHostString());
             if (playersAtAddress != null && playersAtAddress.size() > 1) {
                 this.validPlayers.remove(player);
+                return;
             }
         }
+
+        if (this.plugin.getSettings().checkCap() &&
+            !player.hasPermission("chronopay.bypass.cap") &&
+            this.getPlayerData(player.getUniqueId()).getPayedMoney() > this.plugin.getSettings().getPayoutCap()
+        ) {
+            this.validPlayers.remove(player);
+            return;
+        }
+
+        this.validPlayers.add(player);
     }
 
     public void addPlayerAddress(final Player player) {
