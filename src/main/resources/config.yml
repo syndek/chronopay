@@ -11,7 +11,7 @@ payout-cycle-reset-interval: 86400
 # The amount of money to give to each player on every payout.
 payout-amount: 0.10
 
-# The maximum amount of money a player can earn per-cycle, if they don't have the 'chronopay.bypass.cap' permission node.
+# The maximum amount of money a player can earn per-cycle if they don't have the 'chronopay.bypass.cap' permission node.
 payout-cap: 5.0
 
 checks:
