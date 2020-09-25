@@ -4,7 +4,7 @@ import net.ess3.api.events.AfkStatusChangeEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class PlayerAfkListener implements Listener {
+public final class PlayerAfkListener implements Listener {
     private final ChronoPayPlugin plugin;
 
     public PlayerAfkListener(final ChronoPayPlugin plugin) {
