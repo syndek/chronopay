@@ -14,14 +14,11 @@ public final class PlayerConnectionListener implements Listener {
 
     @EventHandler
     private void onPlayerJoin(final PlayerJoinEvent event) {
-        this.plugin.getOnlineAddressMap().put(
-            event.getPlayer().getUniqueId(),
-            event.getPlayer().getAddress().getHostString()
-        );
+        this.plugin.getPlayerTracker().addPlayerAddress(event.getPlayer());
     }
 
     @EventHandler
     private void onPlayerQuit(final PlayerQuitEvent event) {
-        this.plugin.getOnlineAddressMap().remove(event.getPlayer().getUniqueId());
+        this.plugin.getPlayerTracker().removePlayerAddress(event.getPlayer());
     }
 }

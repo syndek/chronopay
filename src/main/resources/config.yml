@@ -6,26 +6,10 @@ payout-interval: 600
 # The amount of money to give to each player on every payout.
 payout-amount: 0.10
 
-# The maximum amount of money a player can earn per-day, if they don't have the 'chronopay.bypass.cap' permission node.
-# Set this to 0 to disable it.
+# The maximum amount of money a player can earn per-cycle, if they don't have the 'chronopay.bypass.cap' permission node.
 payout-cap: 5.0
 
-# The different messages sent to players upon certain conditions being met.
-# All messages support Minecraft '&' colour codes.
-# You can set any message to 'none' to disable it.
-# To use the ' character inside a message, you must type it twice ('').
-messages:
-  # Displayed when a player receives a payout.
-  # You can use the macro '{money}' in place of the money earned from the payout.
-  # You can use the macro '{seconds}' in place of the payout-interval value in seconds.
-  # You can use the macro '{minutes}' in place of the payout-interval value in minutes.
-  payout: '&7You have received &a{money} &7for {minutes} minutes online time!'
-  # Displayed when a player would receive a payout, but has reached the configured payout limit for that day.
-  # A player can bypass this check if they have the 'chronopay.bypass.cap' permission node.
-  cap-reached: '&cYou have reached the payout limit for today!'
-  # Displayed when a player is denied a payout due to being AFK.
-  # A player can bypass this check if they have the 'chronopay.bypass.afk' permission node.
-  afk: '&cYou haven''t earned any money because you''re AFK!'
-  # Displayed when a player is denied a payout due to being logged in with more than one account.
-  # A player can bypass this check if they have the 'chronopay.bypass.ip' permission node.
-  ip: '&cYou haven''t earned any money because you''re logged in on multiple accounts!'
+checks:
+  address: true
+  afk: true
+  cap: true

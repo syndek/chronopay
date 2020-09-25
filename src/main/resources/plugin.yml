@@ -18,4 +18,4 @@ permissions:
   chronopay.bypass.*:
     chronopay.bypass.cap: true
     chronopay.bypass.afk: true
-    chronopay.bypass.ip: true
+    chronopay.bypass.address: true
