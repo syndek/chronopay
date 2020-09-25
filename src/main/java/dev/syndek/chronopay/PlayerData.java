@@ -12,6 +12,10 @@ public class PlayerData {
         this.onlineTime++;
     }
 
+    public void resetOnlineTime() {
+        this.onlineTime = 0;
+    }
+
     public float getPayedMoney() {
         return payedMoney;
     }

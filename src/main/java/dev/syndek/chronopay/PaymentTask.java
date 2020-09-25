@@ -21,18 +21,17 @@ public final class PaymentTask implements Runnable {
             data.incrementOnlineTime();
 
             if (data.getOnlineTime() >= this.settings.getPayoutInterval()) {
-                this.pay(player);
+                final float payoutAmount = this.settings.getPayoutAmount();
+
+                // Pay the player the configured amount.
+                this.plugin.getEconomy().depositPlayer(player, payoutAmount);
+
+                data.addPayedMoney(payoutAmount);
+                data.resetOnlineTime();
+
+                // Recalculate player validity after payout to ensure they haven't exceeded the cap.
+                this.plugin.getPlayerTracker().recalculatePlayerValidity(player);
             }
         }
-    }
-
-    private void pay(final Player player) {
-        final float payoutAmount = this.settings.getPayoutAmount();
-
-        // Pay the player the configured amount.
-        this.plugin.getEconomy().depositPlayer(player, payoutAmount);
-
-        // Update the player's total earnings to reflect the payout.
-        this.playerTracker.getPlayerData(player.getUniqueId()).addPayedMoney(payoutAmount);
     }
 }
