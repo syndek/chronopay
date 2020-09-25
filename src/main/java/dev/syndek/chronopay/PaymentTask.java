@@ -29,8 +29,20 @@ public final class PaymentTask implements Runnable {
                 data.addPayedMoney(payoutAmount);
                 data.resetOnlineTime();
 
+                final String payoutMessage = this.plugin.getSettings().getPayoutMessage();
+                if (!payoutMessage.isEmpty()) {
+                    player.sendMessage(payoutMessage);
+                }
+
                 // Recalculate player validity after payout to ensure they haven't exceeded the cap.
                 this.plugin.getPlayerTracker().recalculatePlayerValidity(player);
+
+                if (this.plugin.getPlayerTracker().playerFailsCapCheck(player)) {
+                    final String capReachedMessage = this.plugin.getSettings().getCapReachedMessage();
+                    if (!capReachedMessage.isEmpty()) {
+                        player.sendMessage(capReachedMessage);
+                    }
+                }
             }
         }
     }
