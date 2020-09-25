@@ -6,6 +6,7 @@ public class ChronoPaySettings {
     private final ChronoPayPlugin plugin;
 
     private int     payoutInterval;
+    private int     payoutCycleResetInterval;
     private float   payoutAmount;
     private float   payoutCap;
     private boolean checkAddress;
@@ -17,6 +18,10 @@ public class ChronoPaySettings {
 
     public int getPayoutInterval() {
         return this.payoutInterval;
+    }
+
+    public int getPayoutCycleResetInterval() {
+        return this.payoutCycleResetInterval;
     }
 
     public float getPayoutAmount() {
@@ -41,6 +46,7 @@ public class ChronoPaySettings {
 
         final Configuration config = this.plugin.getConfig();
         this.payoutInterval = config.getInt("payout-interval", 60);
+        this.payoutCycleResetInterval = config.getInt("payout-cycle-reset-interval", 60);
         this.payoutAmount = (float) config.getDouble("payout-amount", 0.1);
         this.payoutCap = (float) config.getDouble("payout-cap", 5.0);
         this.checkAddress = config.getBoolean("checks.address", true);
