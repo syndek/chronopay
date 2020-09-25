@@ -1,5 +1,6 @@
 package dev.syndek.chronopay;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -14,7 +15,15 @@ public final class PlayerConnectionListener implements Listener {
 
     @EventHandler
     private void onPlayerJoin(final PlayerJoinEvent event) {
-        this.plugin.getPlayerTracker().addPlayerAddress(event.getPlayer());
+        final Player player = event.getPlayer();
+        this.plugin.getPlayerTracker().addPlayerAddress(player);
+
+        if (this.plugin.getPlayerTracker().playerFailsAddressCheck(player)) {
+            final String multipleAccountsMessage = this.plugin.getSettings().getMultipleAccountsMessage();
+            if (!multipleAccountsMessage.isEmpty()) {
+                player.sendMessage(multipleAccountsMessage);
+            }
+        }
     }
 
     @EventHandler

@@ -1,6 +1,7 @@
 package dev.syndek.chronopay;
 
 import net.ess3.api.events.AfkStatusChangeEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -13,6 +14,15 @@ public final class PlayerAfkListener implements Listener {
 
     @EventHandler
     private void onAfkStatusChange(AfkStatusChangeEvent event) {
-        this.plugin.getPlayerTracker().setPlayerAfkStatus(event.getAffected().getBase(), event.getValue());
+        final Player player = event.getAffected().getBase();
+
+        this.plugin.getPlayerTracker().setPlayerAfkStatus(player, event.getValue());
+
+        if (this.plugin.getPlayerTracker().playerFailsAfkCheck(player)) {
+            final String goneAfkMessage = this.plugin.getSettings().getGoneAfkMessage();
+            if (!goneAfkMessage.isEmpty()) {
+                player.sendMessage(goneAfkMessage);
+            }
+        }
     }
 }
