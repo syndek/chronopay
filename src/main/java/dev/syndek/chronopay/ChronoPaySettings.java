@@ -11,6 +11,7 @@ public class ChronoPaySettings {
     private float   payoutCap;
     private boolean checkAddress;
     private boolean checkAfk;
+    private boolean checkCap;
 
     public ChronoPaySettings(final ChronoPayPlugin plugin) {
         this.plugin = plugin;
@@ -40,6 +41,10 @@ public class ChronoPaySettings {
         return this.checkAfk;
     }
 
+    public boolean checkCap() {
+        return this.checkCap;
+    }
+
     public void load() {
         this.plugin.saveDefaultConfig();
         this.plugin.reloadConfig();
@@ -51,5 +56,6 @@ public class ChronoPaySettings {
         this.payoutCap = (float) config.getDouble("payout-cap", 5.0);
         this.checkAddress = config.getBoolean("checks.address", true);
         this.checkAfk = config.getBoolean("checks.afk", true);
+        this.checkCap = config.getBoolean("checks.cap", true);
     }
 }
