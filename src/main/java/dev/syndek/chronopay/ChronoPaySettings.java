@@ -12,6 +12,11 @@ public class ChronoPaySettings {
     private boolean checkAddress;
     private boolean checkAfk;
     private boolean checkCap;
+    private String  payoutMessage;
+    private String  cycleResetMessage;
+    private String  capReachedMessage;
+    private String  multipleAccountsMessage;
+    private String  goneAfkMessage;
 
     public ChronoPaySettings(final ChronoPayPlugin plugin) {
         this.plugin = plugin;
@@ -45,6 +50,26 @@ public class ChronoPaySettings {
         return this.checkCap;
     }
 
+    public String getPayoutMessage() {
+        return this.payoutMessage;
+    }
+
+    public String getCycleResetMessage() {
+        return this.cycleResetMessage;
+    }
+
+    public String getCapReachedMessage() {
+        return this.capReachedMessage;
+    }
+
+    public String getMultipleAccountsMessage() {
+        return this.multipleAccountsMessage;
+    }
+
+    public String getGoneAfkMessage() {
+        return this.goneAfkMessage;
+    }
+
     public void load() {
         this.plugin.saveDefaultConfig();
         this.plugin.reloadConfig();
@@ -57,5 +82,10 @@ public class ChronoPaySettings {
         this.checkAddress = config.getBoolean("checks.address", true);
         this.checkAfk = config.getBoolean("checks.afk", true);
         this.checkCap = config.getBoolean("checks.cap", true);
+        this.payoutMessage = config.getString("messages.payout");
+        this.cycleResetMessage = config.getString("messages.cycle-reset");
+        this.capReachedMessage = config.getString("messages.cap-reached");
+        this.multipleAccountsMessage = config.getString("messages.multiple-accounts");
+        this.goneAfkMessage = config.getString("messages.gone-afk");
     }
 }
