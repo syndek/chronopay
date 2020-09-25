@@ -5,6 +5,7 @@ payout-interval: 600
 
 # The number of seconds before a payout cycle resets and players who have reached
 # the cap and don't have the bypass permission node can start earning again.
+# This value is not affected by /cpreload and requires a full reload of the plugin.
 payout-cycle-reset-interval: 86400
 
 # The amount of money to give to each player on every payout.
