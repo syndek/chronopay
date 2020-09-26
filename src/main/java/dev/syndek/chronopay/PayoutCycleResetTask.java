@@ -17,14 +17,17 @@ public final class PayoutCycleResetTask implements Runnable {
         final String cycleResetMessage = this.plugin.getSettings().getCycleResetMessage();
 
         for (final Map.Entry<UUID, PlayerData> entry : this.plugin.getPlayerTracker().getPlayerData().entrySet()) {
+            entry.getValue().resetPayedMoney();
+
             final Player player = this.plugin.getServer().getPlayer(entry.getKey());
 
-            if (!cycleResetMessage.isEmpty() && this.plugin.getPlayerTracker().playerFailsCapCheck(player)) {
-                player.sendMessage(cycleResetMessage);
-            }
+            if (player != null) {
+                if (!cycleResetMessage.isEmpty() && this.plugin.getPlayerTracker().playerFailsCapCheck(player)) {
+                    player.sendMessage(cycleResetMessage);
+                }
 
-            entry.getValue().resetPayedMoney();
-            this.plugin.getPlayerTracker().recalculatePlayerValidity(player);
+                this.plugin.getPlayerTracker().recalculatePlayerValidity(player);
+            }
         }
     }
 }
