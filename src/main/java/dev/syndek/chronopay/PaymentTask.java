@@ -31,12 +31,7 @@ public final class PaymentTask implements Runnable {
 
                 final String payoutMessage = this.settings.getPayoutMessage();
                 if (!payoutMessage.isEmpty()) {
-                    player.sendMessage(
-                        payoutMessage
-                            .replace("{money}", Float.toString(payoutAmount))
-                            .replace("{minutes}", Float.toString((float) this.settings.getPayoutInterval() / 60))
-                            .replace("{seconds}", Integer.toString(this.settings.getPayoutInterval()))
-                    );
+                    player.sendMessage(payoutMessage);
                 }
 
                 // Recalculate player validity after payout to ensure they haven't exceeded the cap.
