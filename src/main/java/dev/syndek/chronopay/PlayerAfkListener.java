@@ -7,18 +7,21 @@ import org.bukkit.event.Listener;
 
 public final class PlayerAfkListener implements Listener {
     private final ChronoPayPlugin plugin;
+    private final PlayerTracker   playerTracker;
 
     public PlayerAfkListener(final ChronoPayPlugin plugin) {
         this.plugin = plugin;
+        this.playerTracker = plugin.getPlayerTracker();
     }
 
     @EventHandler
     private void onAfkStatusChange(AfkStatusChangeEvent event) {
         final Player player = event.getAffected().getBase();
 
-        this.plugin.getPlayerTracker().setPlayerAfkStatus(player, event.getValue());
+        this.playerTracker.setPlayerAfkStatus(player, event.getValue());
+        this.playerTracker.recalculatePlayerValidity(player);
 
-        if (this.plugin.getPlayerTracker().playerFailsAfkCheck(player)) {
+        if (this.playerTracker.playerFailsAfkCheck(player)) {
             final String goneAfkMessage = this.plugin.getSettings().getGoneAfkMessage();
             if (!goneAfkMessage.isEmpty()) {
                 player.sendMessage(goneAfkMessage);
