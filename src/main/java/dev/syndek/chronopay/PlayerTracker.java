@@ -13,6 +13,7 @@ public class PlayerTracker {
 
     public PlayerTracker(final ChronoPayPlugin plugin) {
         this.plugin = plugin;
+        this.plugin.getServer().getOnlinePlayers().forEach(this::recalculatePlayerValidity);
     }
 
     public Set<Player> getValidPlayers() {
