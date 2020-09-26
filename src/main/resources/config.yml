@@ -33,12 +33,16 @@ checks:
 # could have a bypass permission node will not be displayed.
 messages:
   # Displayed to a player when they receive a payout.
-  payout: ''
+  # You can use the following macros in this message:
+  # {money} - The amount of money payed to the player.
+  # {minutes} - The value of payout-interval in minutes.
+  # {seconds} - The value of payout-interval in seconds.
+  payout: '&7You have received &a{money} &7for {minutes} minutes online time!'
   # Displayed to a player who has reached the payout cap when the current payout cycle resets.
-  cycle-reset: ''
+  cycle-reset: '&aYou will now start earning money for activity again!'
   # Displayed to a player when they reach the configured payout cap.
-  cap-reached: ''
+  cap-reached: '&cYou have reached the payout cap for now.'
   # Displayed to a user when they log in if there are already players logged in at their location.
-  multiple-accounts: ''
+  multiple-accounts: '&cThere are multiple accounts logged in at your location. You will not earn any money.'
   # Displayed to a user when they go AFK.
-  gone-afk: ''
+  gone-afk: '&cYou cannot earn money whilst AFK.'
