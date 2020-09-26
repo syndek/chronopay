@@ -14,14 +14,31 @@ payout-amount: 0.10
 # The maximum amount of money a player can earn per-cycle if they don't have the 'chronopay.bypass.cap' permission node.
 payout-cap: 5.0
 
+# The different checks that a player must pass in order to be eligible to earn money.
 checks:
+  # Checks whether or not multiple players are logged in from the same location.
+  # Can be bypassed with the 'chronopay.bypass.address' permission node.
   address: true
+  # Checks whether or not a player is AFK (uses Essentials, ignored if Essentials is not present).
+  # Can be bypassed with the 'chronopay.bypass.afk' permission node.
   afk: true
+  # Checks whether or not a player has reached the configured payout cap for the current payout cycle.
+  # Can be bypassed with the 'chronopay.bypass.cap' permission node.
   cap: true
 
+# The messages to display to users in different situations.
+# All messages support Minecraft '&' colour codes.
+# You can disable any message by leaving it empty or removing the key here.
+# Any message that would be displayed to a player in a situation where they
+# could have a bypass permission node will not be displayed.
 messages:
+  # Displayed to a player when they receive a payout.
   payout: ''
+  # Displayed to a player who has reached the payout cap when the current payout cycle resets.
   cycle-reset: ''
+  # Displayed to a player when they reach the configured payout cap.
   cap-reached: ''
+  # Displayed to a user when they log in if there are already players logged in at their location.
   multiple-accounts: ''
+  # Displayed to a user when they go AFK.
   gone-afk: ''
