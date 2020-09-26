@@ -71,7 +71,7 @@ public class PlayerTracker {
     public boolean playerFailsCapCheck(final Player player) {
         return this.plugin.getSettings().checkCap() &&
             !player.hasPermission("chronopay.bypass.cap") &&
-            this.getPlayerData(player.getUniqueId()).getPayedMoney() > this.plugin.getSettings().getPayoutCap();
+            this.getPlayerData(player.getUniqueId()).getPayedMoney() >= this.plugin.getSettings().getPayoutCap();
     }
 
     public void addPlayerAddress(final Player player) {
