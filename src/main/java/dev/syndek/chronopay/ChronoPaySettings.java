@@ -1,5 +1,6 @@
 package dev.syndek.chronopay;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 
 public class ChronoPaySettings {
@@ -82,10 +83,17 @@ public class ChronoPaySettings {
         this.checkAddress = config.getBoolean("checks.address", true);
         this.checkAfk = config.getBoolean("checks.afk", true);
         this.checkCap = config.getBoolean("checks.cap", true);
-        this.payoutMessage = config.getString("messages.payout");
-        this.cycleResetMessage = config.getString("messages.cycle-reset");
-        this.capReachedMessage = config.getString("messages.cap-reached");
-        this.multipleAccountsMessage = config.getString("messages.multiple-accounts");
-        this.goneAfkMessage = config.getString("messages.gone-afk");
+        this.payoutMessage = this.getMessage("messages.payout");
+        this.cycleResetMessage = this.getMessage("messages.cycle-reset");
+        this.capReachedMessage = this.getMessage("messages.cap-reached");
+        this.multipleAccountsMessage = this.getMessage("messages.multiple-accounts");
+        this.goneAfkMessage = this.getMessage("messages.gone-afk");
+    }
+
+    private String getMessage(final String key) {
+        return ChatColor.translateAlternateColorCodes(
+            '&',
+            this.plugin.getConfig().getString(key, "")
+        );
     }
 }
