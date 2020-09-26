@@ -83,7 +83,10 @@ public class ChronoPaySettings {
         this.checkAddress = config.getBoolean("checks.address", true);
         this.checkAfk = config.getBoolean("checks.afk", true);
         this.checkCap = config.getBoolean("checks.cap", true);
-        this.payoutMessage = this.getMessage("messages.payout");
+        this.payoutMessage = this.getMessage("messages.payout")
+            .replace("{money}", Float.toString(this.payoutAmount))
+            .replace("{minutes}", Float.toString((float) this.payoutInterval / 60))
+            .replace("{seconds}", Integer.toString(this.payoutInterval));
         this.cycleResetMessage = this.getMessage("messages.cycle-reset");
         this.capReachedMessage = this.getMessage("messages.cap-reached");
         this.multipleAccountsMessage = this.getMessage("messages.multiple-accounts");
