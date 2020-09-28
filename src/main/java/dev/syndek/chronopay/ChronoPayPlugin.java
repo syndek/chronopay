@@ -20,6 +20,7 @@ package dev.syndek.chronopay;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class ChronoPayPlugin extends JavaPlugin {
     private final ChronoPaySettings settings      = new ChronoPaySettings(this);
@@ -57,15 +58,15 @@ public class ChronoPayPlugin extends JavaPlugin {
         }
     }
 
-    public ChronoPaySettings getSettings() {
+    public @NotNull ChronoPaySettings getSettings() {
         return this.settings;
     }
 
-    public PlayerTracker getPlayerTracker() {
+    public @NotNull PlayerTracker getPlayerTracker() {
         return this.playerTracker;
     }
 
-    public Economy getEconomy() {
+    public @NotNull Economy getEconomy() {
         return this.economy;
     }
 }

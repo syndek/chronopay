@@ -19,6 +19,7 @@ package dev.syndek.chronopay;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
+import org.jetbrains.annotations.NotNull;
 
 public class ChronoPaySettings {
     private final ChronoPayPlugin plugin;
@@ -68,23 +69,23 @@ public class ChronoPaySettings {
         return this.checkCap;
     }
 
-    public String getPayoutMessage() {
+    public @NotNull String getPayoutMessage() {
         return this.payoutMessage;
     }
 
-    public String getCycleResetMessage() {
+    public @NotNull String getCycleResetMessage() {
         return this.cycleResetMessage;
     }
 
-    public String getCapReachedMessage() {
+    public @NotNull String getCapReachedMessage() {
         return this.capReachedMessage;
     }
 
-    public String getMultipleAccountsMessage() {
+    public @NotNull String getMultipleAccountsMessage() {
         return this.multipleAccountsMessage;
     }
 
-    public String getGoneAfkMessage() {
+    public @NotNull String getGoneAfkMessage() {
         return this.goneAfkMessage;
     }
 
@@ -110,7 +111,7 @@ public class ChronoPaySettings {
         this.goneAfkMessage = this.getMessage("messages.gone-afk");
     }
 
-    private String getMessage(final String key) {
+    private @NotNull String getMessage(final String key) {
         return ChatColor.translateAlternateColorCodes(
             '&',
             this.plugin.getConfig().getString(key, "")

@@ -18,13 +18,14 @@
 package dev.syndek.chronopay;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public final class PaymentTask implements Runnable {
     private final ChronoPayPlugin   plugin;
     private final ChronoPaySettings settings;
     private final PlayerTracker     playerTracker;
 
-    public PaymentTask(final ChronoPayPlugin plugin) {
+    public PaymentTask(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
         this.settings = plugin.getSettings();
         this.playerTracker = plugin.getPlayerTracker();
