@@ -18,6 +18,7 @@
 package dev.syndek.chronopay;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -28,24 +29,24 @@ public class PlayerTracker {
     private final Set<UUID>              afkPlayers       = new HashSet<>();
     private final Set<Player>            validPlayers     = new HashSet<>();
 
-    public PlayerTracker(final ChronoPayPlugin plugin) {
+    public PlayerTracker(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
         this.plugin.getServer().getOnlinePlayers().forEach(this::recalculatePlayerValidity);
     }
 
-    public Set<Player> getValidPlayers() {
+    public @NotNull Set<Player> getValidPlayers() {
         return this.validPlayers;
     }
 
-    public Map<UUID, PlayerData> getPlayerData() {
+    public @NotNull Map<UUID, PlayerData> getPlayerData() {
         return this.playerData;
     }
 
-    public PlayerData getPlayerData(final UUID uniqueId) {
+    public @NotNull PlayerData getPlayerData(final UUID uniqueId) {
         return this.playerData.computeIfAbsent(uniqueId, key -> new PlayerData());
     }
 
-    public void setPlayerAfkStatus(final Player player, final boolean isAfk) {
+    public void setPlayerAfkStatus(final @NotNull Player player, final boolean isAfk) {
         if (isAfk) {
             this.afkPlayers.add(player.getUniqueId());
         } else {
@@ -53,11 +54,11 @@ public class PlayerTracker {
         }
     }
 
-    public void recalculatePlayerValidity(final UUID playerId) {
+    public void recalculatePlayerValidity(final @NotNull UUID playerId) {
         this.recalculatePlayerValidity(this.plugin.getServer().getPlayer(playerId));
     }
 
-    public void recalculatePlayerValidity(final Player player) {
+    public void recalculatePlayerValidity(final @NotNull Player player) {
         if (this.playerFailsAddressCheck(player) ||
             this.playerFailsAfkCheck(player) ||
             this.playerFailsCapCheck(player)
@@ -68,7 +69,7 @@ public class PlayerTracker {
         }
     }
 
-    public boolean playerFailsAddressCheck(final Player player) {
+    public boolean playerFailsAddressCheck(final @NotNull Player player) {
         if (this.plugin.getSettings().checkAddress() &&
             !player.hasPermission("chronopay.bypass.address")
         ) {
@@ -79,19 +80,19 @@ public class PlayerTracker {
         return false;
     }
 
-    public boolean playerFailsAfkCheck(final Player player) {
+    public boolean playerFailsAfkCheck(final @NotNull Player player) {
         return this.plugin.getSettings().checkAfk() &&
             !player.hasPermission("chronopay.bypass.afk") &&
             this.afkPlayers.contains(player.getUniqueId());
     }
 
-    public boolean playerFailsCapCheck(final Player player) {
+    public boolean playerFailsCapCheck(final @NotNull Player player) {
         return this.plugin.getSettings().checkCap() &&
             !player.hasPermission("chronopay.bypass.cap") &&
             this.getPlayerData(player.getUniqueId()).getPayedMoney() >= this.plugin.getSettings().getPayoutCap();
     }
 
-    public void addPlayerAddress(final Player player) {
+    public void addPlayerAddress(final @NotNull Player player) {
         final UUID playerId = player.getUniqueId();
         final String playerAddress = player.getAddress().getHostString();
         final Set<UUID> playersAtAddress = this.playersAtAddress.computeIfAbsent(playerAddress, key -> new HashSet<>());
@@ -110,7 +111,7 @@ public class PlayerTracker {
         }
     }
 
-    public void removePlayerAddress(final Player player) {
+    public void removePlayerAddress(final @NotNull Player player) {
         final UUID playerId = player.getUniqueId();
         final String playerAddress = player.getAddress().getHostString();
         final Set<UUID> playersAtAddress = this.playersAtAddress.get(playerAddress);

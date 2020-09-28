@@ -21,20 +21,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 public class ChronoPayCommandExecutor implements CommandExecutor {
     private final ChronoPayPlugin plugin;
 
-    public ChronoPayCommandExecutor(final ChronoPayPlugin plugin) {
+    public ChronoPayCommandExecutor(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(
-        final CommandSender sender,
-        final Command command,
-        final String label,
-        final String[] args
+        final @NotNull CommandSender sender,
+        final @NotNull Command command,
+        final @NotNull String label,
+        final @NotNull String[] args
     ) {
         if (!sender.hasPermission("chronopay.reload")) {
             sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");

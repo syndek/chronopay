@@ -22,16 +22,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 public final class PlayerConnectionListener implements Listener {
     private final ChronoPayPlugin plugin;
 
-    public PlayerConnectionListener(final ChronoPayPlugin plugin) {
+    public PlayerConnectionListener(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
-    private void onPlayerJoin(final PlayerJoinEvent event) {
+    private void onPlayerJoin(final @NotNull PlayerJoinEvent event) {
         final Player player = event.getPlayer();
         this.plugin.getPlayerTracker().addPlayerAddress(player);
 
@@ -44,7 +45,7 @@ public final class PlayerConnectionListener implements Listener {
     }
 
     @EventHandler
-    private void onPlayerQuit(final PlayerQuitEvent event) {
+    private void onPlayerQuit(final @NotNull PlayerQuitEvent event) {
         this.plugin.getPlayerTracker().removePlayerAddress(event.getPlayer());
     }
 }

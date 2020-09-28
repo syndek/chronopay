@@ -21,18 +21,19 @@ import net.ess3.api.events.AfkStatusChangeEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 public final class PlayerAfkListener implements Listener {
     private final ChronoPayPlugin plugin;
     private final PlayerTracker   playerTracker;
 
-    public PlayerAfkListener(final ChronoPayPlugin plugin) {
+    public PlayerAfkListener(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
         this.playerTracker = plugin.getPlayerTracker();
     }
 
     @EventHandler
-    private void onAfkStatusChange(AfkStatusChangeEvent event) {
+    private void onAfkStatusChange(final @NotNull AfkStatusChangeEvent event) {
         final Player player = event.getAffected().getBase();
 
         this.playerTracker.setPlayerAfkStatus(player, event.getValue());

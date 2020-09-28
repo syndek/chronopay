@@ -18,6 +18,7 @@
 package dev.syndek.chronopay;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.UUID;
@@ -25,7 +26,7 @@ import java.util.UUID;
 public final class PayoutCycleResetTask implements Runnable {
     public final ChronoPayPlugin plugin;
 
-    public PayoutCycleResetTask(final ChronoPayPlugin plugin) {
+    public PayoutCycleResetTask(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
     }
 
