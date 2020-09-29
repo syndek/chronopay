@@ -42,7 +42,7 @@ public class PlayerTracker {
         return this.playerData;
     }
 
-    public @NotNull PlayerData getPlayerData(final UUID uniqueId) {
+    public @NotNull PlayerData getPlayerData(final @NotNull UUID uniqueId) {
         return this.playerData.computeIfAbsent(uniqueId, key -> new PlayerData());
     }
 
