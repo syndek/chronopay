@@ -37,7 +37,7 @@ public class ChronoPaySettings {
     private String  multipleAccountsMessage;
     private String  goneAfkMessage;
 
-    public ChronoPaySettings(final ChronoPayPlugin plugin) {
+    public ChronoPaySettings(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -111,7 +111,7 @@ public class ChronoPaySettings {
         this.goneAfkMessage = this.getMessage("messages.gone-afk");
     }
 
-    private @NotNull String getMessage(final String key) {
+    private @NotNull String getMessage(final @NotNull String key) {
         return ChatColor.translateAlternateColorCodes(
             '&',
             this.plugin.getConfig().getString(key, "")
