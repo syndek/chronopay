@@ -21,13 +21,14 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerTracker {
     private final ChronoPayPlugin        plugin;
     private final Map<String, Set<UUID>> playersAtAddress = new HashMap<>();
     private final Map<UUID, PlayerData>  playerData       = new HashMap<>();
     private final Set<UUID>              afkPlayers       = new HashSet<>();
-    private final Set<Player>            validPlayers     = new HashSet<>();
+    private final Set<Player>            validPlayers     = ConcurrentHashMap.newKeySet();
 
     public PlayerTracker(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
@@ -55,7 +56,12 @@ public class PlayerTracker {
     }
 
     public void recalculatePlayerValidity(final @NotNull UUID playerId) {
-        this.recalculatePlayerValidity(this.plugin.getServer().getPlayer(playerId));
+        final Player player = this.plugin.getServer().getPlayer(playerId);
+
+        // This method should only be called in a situation in which player != null, but we should check regardless.
+        if (player != null) {
+            this.recalculatePlayerValidity(player);
+        }
     }
 
     public void recalculatePlayerValidity(final @NotNull Player player) {
