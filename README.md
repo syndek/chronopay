@@ -19,6 +19,13 @@ Version numbers roughly follow the [Semantic Versioning Guidelines](https://semv
 
 Version 2.0.0 is a massive improvement over version 1.0.0, and it's the version I recommend everybody uses.
 
+## Downloads
+
+ChronoPay is available to download at the following locations:
+- [GitHub](https://github.com/syndek/chronopay/releases)
+- [Bukkit](https://dev.bukkit.org/projects/chronopay)
+- [Spigot](https://www.spigotmc.org/resources/chronopay.84186)
+
 ## Commands
 
 Currently, the plugin only registers one command.
