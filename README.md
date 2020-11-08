@@ -1,5 +1,8 @@
 # ChronoPay
 
+**New:** If you're interested in [Kotlin](https://kotlinlang.org),
+be sure to check out the [chronopay-kotlin](https://github.com/syndek/chronopay-kotlin) repository!
+
 ChronoPay is a Bukkit plugin for rewarding players with money for online time.
 Originally made a number of years ago for a smaller Minecraft server I play on,
 I'm now open sourcing it, making it available publicly, and continuing development. 🎉
