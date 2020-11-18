@@ -11,8 +11,14 @@ payout-cycle-reset-interval: 86400
 # The amount of money to give to each player on every payout.
 payout-amount: 0.10
 
-# The maximum amount of money a player can earn per-cycle if they don't have the 'chronopay.bypass.cap' permission node.
-payout-cap: 5.0
+# The commands to run when a player receives a payout.
+# You can use the macro {player} in place of the name of the player who received the payout.
+payout-commands:
+  - 'give {player} gold_nugget 1'
+
+# The maximum number of times a player can earn a payout per-cycle
+# if they don't have the 'chronopay.bypass.cap' permission node.
+payout-cap: 50
 
 # The different checks that a player must pass in order to be eligible to earn money.
 checks:
@@ -37,7 +43,7 @@ messages:
   # {money} - The amount of money payed to the player.
   # {minutes} - The value of payout-interval in minutes.
   # {seconds} - The value of payout-interval in seconds.
-  payout: '&7You have received &a{money} &7for {minutes} minutes online time!'
+  payout: '&7You have received &a${money} &7and a &agold ingot &7for {minutes} minutes online time!'
   # Displayed to a player who has reached the payout cap when the current payout cycle resets.
   cycle-reset: '&aYou will now start earning money for activity again!'
   # Displayed to a player when they reach the configured payout cap.

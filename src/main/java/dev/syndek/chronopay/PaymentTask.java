@@ -44,7 +44,15 @@ public final class PaymentTask implements Runnable {
                 // Pay the player the configured amount.
                 this.plugin.getEconomy().depositPlayer(player, payoutAmount);
 
-                data.addPayedMoney(payoutAmount);
+                // Run any configured commands.
+                for (final String command : this.settings.getPayoutCommands()) {
+                    this.plugin.getServer().dispatchCommand(
+                        this.plugin.getServer().getConsoleSender(),
+                        command.replace("{player}", player.getName())
+                    );
+                }
+
+                data.incrementPayoutCount();
                 data.resetOnlineTime();
 
                 final String payoutMessage = this.settings.getPayoutMessage();

@@ -29,7 +29,6 @@ public class ChronoPayPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Hook Vault.
         final RegisteredServiceProvider<Economy> economyProvider = this.getServer()
             .getServicesManager()
             .getRegistration(Economy.class);
@@ -44,7 +43,9 @@ public class ChronoPayPlugin extends JavaPlugin {
         }
 
         this.settings.load();
+
         this.getCommand("cpreload").setExecutor(new ChronoPayCommandExecutor(this));
+
         this.getServer().getScheduler().runTaskTimer(this, new PaymentTask(this), 0, 20);
         this.getServer().getScheduler().runTaskTimer(
             this,
@@ -52,7 +53,9 @@ public class ChronoPayPlugin extends JavaPlugin {
             0,
             this.settings.getPayoutCycleResetInterval() * 20
         );
+
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
+
         if (this.getServer().getPluginManager().getPlugin("Essentials") != null) {
             this.getServer().getPluginManager().registerEvents(new PlayerAfkListener(this), this);
         }

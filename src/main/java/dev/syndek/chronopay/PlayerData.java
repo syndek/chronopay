@@ -18,11 +18,11 @@
 package dev.syndek.chronopay;
 
 public class PlayerData {
-    private int   onlineTime;
-    private float payedMoney;
+    private int onlineTime;
+    private int payoutCount;
 
     public int getOnlineTime() {
-        return onlineTime;
+        return this.onlineTime;
     }
 
     public void incrementOnlineTime() {
@@ -33,15 +33,15 @@ public class PlayerData {
         this.onlineTime = 0;
     }
 
-    public float getPayedMoney() {
-        return payedMoney;
+    public int getPayoutCount() {
+        return this.payoutCount;
     }
 
-    public void addPayedMoney(final float payedMoney) {
-        this.payedMoney += payedMoney;
+    public void incrementPayoutCount() {
+        this.payoutCount++;
     }
 
-    public void resetPayedMoney() {
-        this.payedMoney = 0;
+    public void resetPayoutCount() {
+        this.payoutCount = 0;
     }
 }

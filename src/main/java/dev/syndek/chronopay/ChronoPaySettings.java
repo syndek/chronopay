@@ -21,21 +21,24 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class ChronoPaySettings {
     private final ChronoPayPlugin plugin;
 
-    private int     payoutInterval;
-    private int     payoutCycleResetInterval;
-    private float   payoutAmount;
-    private float   payoutCap;
-    private boolean checkAddress;
-    private boolean checkAfk;
-    private boolean checkCap;
-    private String  payoutMessage;
-    private String  cycleResetMessage;
-    private String  capReachedMessage;
-    private String  multipleAccountsMessage;
-    private String  goneAfkMessage;
+    private int          payoutInterval;
+    private int          payoutCycleResetInterval;
+    private float        payoutAmount;
+    private List<String> payoutCommands;
+    private int          payoutCap;
+    private boolean      checkAddress;
+    private boolean      checkAfk;
+    private boolean      checkCap;
+    private String       payoutMessage;
+    private String       cycleResetMessage;
+    private String       capReachedMessage;
+    private String       multipleAccountsMessage;
+    private String       goneAfkMessage;
 
     public ChronoPaySettings(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
@@ -53,7 +56,11 @@ public class ChronoPaySettings {
         return this.payoutAmount;
     }
 
-    public float getPayoutCap() {
+    public @NotNull List<String> getPayoutCommands() {
+        return this.payoutCommands;
+    }
+
+    public int getPayoutCap() {
         return this.payoutCap;
     }
 
@@ -94,16 +101,17 @@ public class ChronoPaySettings {
         this.plugin.reloadConfig();
 
         final Configuration config = this.plugin.getConfig();
-        this.payoutInterval = config.getInt("payout-interval", 60);
-        this.payoutCycleResetInterval = config.getInt("payout-cycle-reset-interval", 60);
+        this.payoutInterval = config.getInt("payout-interval", 600);
+        this.payoutCycleResetInterval = config.getInt("payout-cycle-reset-interval", 86400);
         this.payoutAmount = (float) config.getDouble("payout-amount", 0.1);
-        this.payoutCap = (float) config.getDouble("payout-cap", 5.0);
+        this.payoutCommands = config.getStringList("payout-commands");
+        this.payoutCap = config.getInt("payout-cap", 50);
         this.checkAddress = config.getBoolean("checks.address", true);
         this.checkAfk = config.getBoolean("checks.afk", true);
         this.checkCap = config.getBoolean("checks.cap", true);
         this.payoutMessage = this.getMessage("messages.payout")
             .replace("{money}", Float.toString(this.payoutAmount))
-            .replace("{minutes}", Float.toString((float) this.payoutInterval / 60))
+            .replace("{minutes}", String.format("%.02f", (float) this.payoutInterval / 60))
             .replace("{seconds}", Integer.toString(this.payoutInterval));
         this.cycleResetMessage = this.getMessage("messages.cycle-reset");
         this.capReachedMessage = this.getMessage("messages.cap-reached");
@@ -112,6 +120,7 @@ public class ChronoPaySettings {
     }
 
     private @NotNull String getMessage(final @NotNull String key) {
+        //noinspection ConstantConditions
         return ChatColor.translateAlternateColorCodes(
             '&',
             this.plugin.getConfig().getString(key, "")
