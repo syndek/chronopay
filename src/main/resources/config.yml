@@ -40,7 +40,7 @@ checks:
 messages:
   # Displayed to a player when they receive a payout.
   # You can use the following macros in this message:
-  # {money} - The amount of money payed to the player.
+  # {money} - The amount of money paid to the player.
   # {minutes} - The value of payout-interval in minutes.
   # {seconds} - The value of payout-interval in seconds.
   payout: '&7You have received &a${money} &7and a &agold ingot &7for {minutes} minutes online time!'
