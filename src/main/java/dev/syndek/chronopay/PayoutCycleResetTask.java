@@ -35,15 +35,18 @@ public final class PayoutCycleResetTask implements Runnable {
         final String cycleResetMessage = this.plugin.getSettings().getCycleResetMessage();
 
         for (final Map.Entry<UUID, PlayerData> entry : this.plugin.getPlayerTracker().getPlayerData().entrySet()) {
-            entry.getValue().resetPayedMoney();
-
             final Player player = this.plugin.getServer().getPlayer(entry.getKey());
 
             if (player != null) {
                 if (!cycleResetMessage.isEmpty() && this.plugin.getPlayerTracker().playerFailsCapCheck(player)) {
                     player.sendMessage(cycleResetMessage);
                 }
+            }
 
+            // Payout count must be reset *after* the reset message is sent to ensure it's sent to the right players.
+            entry.getValue().resetPayoutCount();
+
+            if (player != null) {
                 this.plugin.getPlayerTracker().recalculatePlayerValidity(player);
             }
         }

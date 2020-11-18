@@ -53,6 +53,8 @@ public class PlayerTracker {
         } else {
             this.afkPlayers.remove(player.getUniqueId());
         }
+
+        this.recalculatePlayerValidity(player);
     }
 
     public void recalculatePlayerValidity(final @NotNull UUID playerId) {
@@ -95,7 +97,7 @@ public class PlayerTracker {
     public boolean playerFailsCapCheck(final @NotNull Player player) {
         return this.plugin.getSettings().checkCap() &&
             !player.hasPermission("chronopay.bypass.cap") &&
-            this.getPlayerData(player.getUniqueId()).getPayedMoney() >= this.plugin.getSettings().getPayoutCap();
+            this.getPlayerData(player.getUniqueId()).getPayoutCount() >= this.plugin.getSettings().getPayoutCap();
     }
 
     public void addPlayerAddress(final @NotNull Player player) {

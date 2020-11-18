@@ -37,7 +37,6 @@ public final class PlayerAfkListener implements Listener {
         final Player player = event.getAffected().getBase();
 
         this.playerTracker.setPlayerAfkStatus(player, event.getValue());
-        this.playerTracker.recalculatePlayerValidity(player);
 
         if (this.playerTracker.playerFailsAfkCheck(player)) {
             final String goneAfkMessage = this.plugin.getSettings().getGoneAfkMessage();
