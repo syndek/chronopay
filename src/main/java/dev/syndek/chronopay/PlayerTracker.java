@@ -60,6 +60,7 @@ public class PlayerTracker {
 
     public void handlePlayerQuit(final @NotNull Player player) {
         this.removePlayerAddress(player);
+        this.recalculatePlayerValidity(player);
     }
 
     public void setPlayerAfkStatus(final @NotNull Player player, final boolean isAfk) {
@@ -82,7 +83,8 @@ public class PlayerTracker {
     }
 
     public void recalculatePlayerValidity(final @NotNull Player player) {
-        if (this.playerFailsAddressCheck(player) ||
+        if (!player.isOnline() ||
+            this.playerFailsAddressCheck(player) ||
             this.playerFailsAfkCheck(player) ||
             this.playerFailsCapCheck(player)
         ) {
