@@ -17,15 +17,20 @@
 
 package dev.syndek.chronopay;
 
+import net.ess3.api.IEssentials;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ChronoPayPlugin extends JavaPlugin {
     private final ChronoPaySettings settings      = new ChronoPaySettings(this);
     private final PlayerTracker     playerTracker = new PlayerTracker(this);
     private       Economy           economy;
+    private       IEssentials       essentials;
 
     @Override
     public void onEnable() {
@@ -56,7 +61,9 @@ public class ChronoPayPlugin extends JavaPlugin {
 
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
 
-        if (this.getServer().getPluginManager().getPlugin("Essentials") != null) {
+        final Plugin essentials = this.getServer().getPluginManager().getPlugin("Essentials");
+        if (essentials != null) {
+            this.essentials = (IEssentials) essentials;
             this.getServer().getPluginManager().registerEvents(new PlayerAfkListener(this), this);
         }
     }
@@ -71,5 +78,23 @@ public class ChronoPayPlugin extends JavaPlugin {
 
     public @NotNull Economy getEconomy() {
         return this.economy;
+    }
+
+    public @Nullable IEssentials getEssentials() {
+        return this.essentials;
+    }
+
+    public void trySendGoneAfkMessageToPlayer(final @NotNull Player player) {
+        final String goneAfkMessage = this.settings.getGoneAfkMessage();
+        if (!goneAfkMessage.isEmpty()) {
+            player.sendMessage(goneAfkMessage);
+        }
+    }
+
+    public void trySendMultipleAccountsMessageToPlayer(final @NotNull Player player) {
+        final String multipleAccountsMessage = this.settings.getMultipleAccountsMessage();
+        if (!multipleAccountsMessage.isEmpty()) {
+            player.sendMessage(multipleAccountsMessage);
+        }
     }
 }
