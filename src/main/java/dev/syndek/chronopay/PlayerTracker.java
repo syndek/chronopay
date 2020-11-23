@@ -32,7 +32,7 @@ public class PlayerTracker {
 
     public PlayerTracker(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
-        this.plugin.getServer().getOnlinePlayers().forEach(this::recalculatePlayerValidity);
+        this.plugin.getServer().getOnlinePlayers().forEach(this::handlePlayerJoin);
     }
 
     public @NotNull Set<Player> getValidPlayers() {
@@ -45,6 +45,21 @@ public class PlayerTracker {
 
     public @NotNull PlayerData getPlayerData(final @NotNull UUID uniqueId) {
         return this.playerData.computeIfAbsent(uniqueId, key -> new PlayerData());
+    }
+
+    public void handlePlayerJoin(final @NotNull Player player) {
+        this.addPlayerAddress(player);
+
+        if (this.playerFailsAddressCheck(player)) {
+            final String multipleAccountsMessage = this.plugin.getSettings().getMultipleAccountsMessage();
+            if (!multipleAccountsMessage.isEmpty()) {
+                player.sendMessage(multipleAccountsMessage);
+            }
+        }
+    }
+
+    public void handlePlayerQuit(final @NotNull Player player) {
+        this.removePlayerAddress(player);
     }
 
     public void setPlayerAfkStatus(final @NotNull Player player, final boolean isAfk) {
@@ -100,7 +115,7 @@ public class PlayerTracker {
             this.getPlayerData(player.getUniqueId()).getPayoutCount() >= this.plugin.getSettings().getPayoutCap();
     }
 
-    public void addPlayerAddress(final @NotNull Player player) {
+    private void addPlayerAddress(final @NotNull Player player) {
         final UUID playerId = player.getUniqueId();
         final String playerAddress = player.getAddress().getHostString();
         final Set<UUID> playersAtAddress = this.playersAtAddress.computeIfAbsent(playerAddress, key -> new HashSet<>());
@@ -119,7 +134,7 @@ public class PlayerTracker {
         }
     }
 
-    public void removePlayerAddress(final @NotNull Player player) {
+    private void removePlayerAddress(final @NotNull Player player) {
         final UUID playerId = player.getUniqueId();
         final String playerAddress = player.getAddress().getHostString();
         final Set<UUID> playersAtAddress = this.playersAtAddress.get(playerAddress);
