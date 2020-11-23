@@ -32,11 +32,11 @@ public final class PlayerConnectionListener implements Listener {
 
     @EventHandler
     private void onPlayerJoin(final @NotNull PlayerJoinEvent event) {
-        this.plugin.getPlayerTracker().handlePlayerJoin(event.getPlayer());
+        this.plugin.getPlayerTracker().startTrackingPlayer(event.getPlayer());
     }
 
     @EventHandler
     private void onPlayerQuit(final @NotNull PlayerQuitEvent event) {
-        this.plugin.getPlayerTracker().handlePlayerQuit(event.getPlayer());
+        this.plugin.getPlayerTracker().stopTrackingPlayer(event.getPlayer());
     }
 }

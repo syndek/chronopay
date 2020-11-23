@@ -17,6 +17,7 @@
 
 package dev.syndek.chronopay;
 
+import net.ess3.api.IEssentials;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +33,7 @@ public class PlayerTracker {
 
     public PlayerTracker(final @NotNull ChronoPayPlugin plugin) {
         this.plugin = plugin;
-        this.plugin.getServer().getOnlinePlayers().forEach(this::handlePlayerJoin);
+        this.plugin.getServer().getOnlinePlayers().forEach(this::startTrackingPlayer);
     }
 
     public @NotNull Set<Player> getValidPlayers() {
@@ -47,20 +48,33 @@ public class PlayerTracker {
         return this.playerData.computeIfAbsent(uniqueId, key -> new PlayerData());
     }
 
-    public void handlePlayerJoin(final @NotNull Player player) {
+    public void startTrackingPlayer(final @NotNull Player player) {
+        // Add the player to the afkPlayers set if Essentials is found and they're AFK.
+        // AFK players are tracked regardless of whether or not AFK checking is enabled in the config.
+        // This is to prevent needing to recalculate who is and isn't AFK if the value is changed at runtime.
+        final IEssentials essentials = this.plugin.getEssentials();
+        if (essentials != null && essentials.getUser(player).isAfk()) {
+            this.afkPlayers.add(player.getUniqueId());
+        }
+
+        if (this.playerFailsAfkCheck(player)) {
+            this.plugin.trySendGoneAfkMessageToPlayer(player);
+        }
+
         this.addPlayerAddress(player);
 
         if (this.playerFailsAddressCheck(player)) {
-            final String multipleAccountsMessage = this.plugin.getSettings().getMultipleAccountsMessage();
-            if (!multipleAccountsMessage.isEmpty()) {
-                player.sendMessage(multipleAccountsMessage);
-            }
+            this.plugin.trySendMultipleAccountsMessageToPlayer(player);
         }
+
+        // this.recalculatePlayerValidity(player);
+        // No need to call this here. It's handled by addPlayerAddress(Player) if necessary.
     }
 
-    public void handlePlayerQuit(final @NotNull Player player) {
+    public void stopTrackingPlayer(final @NotNull Player player) {
+        this.validPlayers.remove(player);
+        this.afkPlayers.remove(player.getUniqueId());
         this.removePlayerAddress(player);
-        this.recalculatePlayerValidity(player);
     }
 
     public void setPlayerAfkStatus(final @NotNull Player player, final boolean isAfk) {
@@ -73,18 +87,8 @@ public class PlayerTracker {
         this.recalculatePlayerValidity(player);
     }
 
-    public void recalculatePlayerValidity(final @NotNull UUID playerId) {
-        final Player player = this.plugin.getServer().getPlayer(playerId);
-
-        // This method should only be called in a situation in which player != null, but we should check regardless.
-        if (player != null) {
-            this.recalculatePlayerValidity(player);
-        }
-    }
-
     public void recalculatePlayerValidity(final @NotNull Player player) {
-        if (!player.isOnline() ||
-            this.playerFailsAddressCheck(player) ||
+        if (this.playerFailsAddressCheck(player) ||
             this.playerFailsAfkCheck(player) ||
             this.playerFailsCapCheck(player)
         ) {
@@ -117,26 +121,7 @@ public class PlayerTracker {
             this.getPlayerData(player.getUniqueId()).getPayoutCount() >= this.plugin.getSettings().getPayoutCap();
     }
 
-    private void addPlayerAddress(final @NotNull Player player) {
-        final UUID playerId = player.getUniqueId();
-        final String playerAddress = player.getAddress().getHostString();
-        final Set<UUID> playersAtAddress = this.playersAtAddress.computeIfAbsent(playerAddress, key -> new HashSet<>());
-
-        playersAtAddress.add(playerId);
-
-        // Recalculate the validity of all players at the address.
-        for (final UUID playerIdAtAddress : playersAtAddress) {
-            // If the player being tested is the same that's being passed to this method,
-            // we can use the faster recalculatePlayerValidity(Player) method.
-            if (playerIdAtAddress.equals(playerId)) {
-                this.recalculatePlayerValidity(player);
-            } else {
-                this.recalculatePlayerValidity(playerIdAtAddress);
-            }
-        }
-    }
-
-    private void removePlayerAddress(final @NotNull Player player) {
+    public void removePlayerAddress(final @NotNull Player player) {
         final UUID playerId = player.getUniqueId();
         final String playerAddress = player.getAddress().getHostString();
         final Set<UUID> playersAtAddress = this.playersAtAddress.get(playerAddress);
@@ -148,9 +133,28 @@ public class PlayerTracker {
 
         playersAtAddress.remove(playerId);
 
-        // Recalculate the validity of all players at the same address.
-        for (final UUID playerIdAtAddress : playersAtAddress) {
-            this.recalculatePlayerValidity(playerIdAtAddress);
+        this.handlePlayersAtSameAddress(playersAtAddress);
+    }
+
+    private void addPlayerAddress(final @NotNull Player player) {
+        final UUID playerId = player.getUniqueId();
+        final String playerAddress = player.getAddress().getHostString();
+        final Set<UUID> playersAtAddress = this.playersAtAddress.computeIfAbsent(playerAddress, key -> new HashSet<>());
+
+        playersAtAddress.add(playerId);
+
+        this.handlePlayersAtSameAddress(playersAtAddress);
+    }
+
+    private void handlePlayersAtSameAddress(final @NotNull Set<UUID> playerIds) {
+        for (final UUID playerIdAtAddress : playerIds) {
+            final Player playerAtAddress = this.plugin.getServer().getPlayer(playerIdAtAddress);
+
+            if (playerAtAddress == null) {
+                continue;
+            }
+
+            this.recalculatePlayerValidity(playerAtAddress);
         }
     }
 }
