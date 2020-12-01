@@ -1,22 +1,8 @@
 name: 'ChronoPay'
-version: '3.0.1'
-website: 'https://www.spigotmc.org/resources/chronopay.84186'
+version: '4.0.0'
+website: 'https://github.com/syndek/chronopay'
 description: 'Reward players for online time.'
 author: 'Syndek'
 
 main: 'dev.syndek.chronopay.ChronoPayPlugin'
-depend: ['Vault']
-softdepend: ['Essentials']
-
-commands:
-  cpreload:
-    description: 'Reloads the plugin configuration.'
-
-permissions:
-  chronopay.*:
-    chronopay.reload: true
-    chronopay.bypass.*: true
-  chronopay.bypass.*:
-    chronopay.bypass.cap: true
-    chronopay.bypass.afk: true
-    chronopay.bypass.address: true
+api-version: '1.16'

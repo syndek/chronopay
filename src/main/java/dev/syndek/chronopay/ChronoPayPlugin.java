@@ -17,84 +17,16 @@
 
 package dev.syndek.chronopay;
 
-import net.ess3.api.IEssentials;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class ChronoPayPlugin extends JavaPlugin {
-    private final ChronoPaySettings settings      = new ChronoPaySettings(this);
-    private final PlayerTracker     playerTracker = new PlayerTracker(this);
-    private       Economy           economy;
-    private       IEssentials       essentials;
-
     @Override
     public void onEnable() {
-        final RegisteredServiceProvider<Economy> economyProvider = this.getServer()
-            .getServicesManager()
-            .getRegistration(Economy.class);
 
-        if (economyProvider != null) {
-            this.economy = economyProvider.getProvider();
-            this.getLogger().info("Successfully hooked Vault economy!");
-        } else {
-            this.getLogger().severe("Failed to hook Vault economy!");
-            this.getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        this.settings.load();
-
-        this.getCommand("cpreload").setExecutor(new ChronoPayCommandExecutor(this));
-
-        this.getServer().getScheduler().runTaskTimer(this, new PaymentTask(this), 0, 20);
-        this.getServer().getScheduler().runTaskTimer(
-            this,
-            new PayoutCycleResetTask(this),
-            0,
-            this.settings.getPayoutCycleResetInterval() * 20
-        );
-
-        this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
-
-        final Plugin essentials = this.getServer().getPluginManager().getPlugin("Essentials");
-        if (essentials != null) {
-            this.essentials = (IEssentials) essentials;
-            this.getServer().getPluginManager().registerEvents(new PlayerAfkListener(this), this);
-        }
     }
 
-    public @NotNull ChronoPaySettings getSettings() {
-        return this.settings;
-    }
+    @Override
+    public void onDisable() {
 
-    public @NotNull PlayerTracker getPlayerTracker() {
-        return this.playerTracker;
-    }
-
-    public @NotNull Economy getEconomy() {
-        return this.economy;
-    }
-
-    public @Nullable IEssentials getEssentials() {
-        return this.essentials;
-    }
-
-    public void trySendGoneAfkMessageToPlayer(final @NotNull Player player) {
-        final String goneAfkMessage = this.settings.getGoneAfkMessage();
-        if (!goneAfkMessage.isEmpty()) {
-            player.sendMessage(goneAfkMessage);
-        }
-    }
-
-    public void trySendMultipleAccountsMessageToPlayer(final @NotNull Player player) {
-        final String multipleAccountsMessage = this.settings.getMultipleAccountsMessage();
-        if (!multipleAccountsMessage.isEmpty()) {
-            player.sendMessage(multipleAccountsMessage);
-        }
     }
 }

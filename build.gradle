@@ -3,19 +3,14 @@ plugins {
 }
 
 group 'dev.syndek'
-version '3.0.1'
+version '4.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
-    maven { url = 'https://jitpack.io' }
-    maven { url = 'https://ci.ender.zone/plugin/repository/everything' }
-    maven { url = 'https://papermc.io/repo/repository/maven-public' }
 }
 
 dependencies {
     compileOnly 'org.bukkit:bukkit:1.15.2-R0.1-SNAPSHOT'
     compileOnly 'org.jetbrains:annotations:20.1.0'
-    compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
-    compileOnly 'net.ess3:EssentialsX:2.18.1'
 }
