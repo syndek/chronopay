@@ -6,3 +6,8 @@ author: 'Syndek'
 
 main: 'dev.syndek.chronopay.ChronoPayPlugin'
 api-version: '1.16'
+
+commands:
+  chronopay:
+    description: 'Access the plugin.'
+    aliases: ['cp']

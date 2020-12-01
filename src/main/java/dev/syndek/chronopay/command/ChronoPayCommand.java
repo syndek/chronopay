@@ -15,25 +15,25 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.syndek.chronopay;
+package dev.syndek.chronopay.command;
 
-import dev.syndek.chronopay.command.ChronoPayCommandHandler;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
+import dev.syndek.chronopay.ChronoPayPlugin;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import java.util.List;
 
-public class ChronoPayPlugin extends JavaPlugin {
-    @Override
-    public void onEnable() {
-        final ChronoPayCommandHandler handler = new ChronoPayCommandHandler(this);
-        final PluginCommand command = Objects.requireNonNull(getCommand("chronopay"));
-        command.setExecutor(handler);
-        command.setTabCompleter(handler);
-    }
+public interface ChronoPayCommand {
+    void execute(
+        final @NotNull ChronoPayPlugin plugin,
+        final @NotNull CommandSender sender,
+        final @NotNull List<String> args
+    );
 
-    @Override
-    public void onDisable() {
-
-    }
+    @NotNull
+    List<String> getTabCompleteOptions(
+        final @NotNull ChronoPayPlugin plugin,
+        final @NotNull CommandSender sender,
+        final @NotNull List<String> args
+    );
 }
