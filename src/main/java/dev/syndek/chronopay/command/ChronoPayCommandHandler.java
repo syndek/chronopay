@@ -32,6 +32,7 @@ public class ChronoPayCommandHandler implements CommandExecutor, TabCompleter {
     private static final Map<String, ChronoPayCommand> COMMAND_MAP =
         new ImmutableMap.Builder<String, ChronoPayCommand>()
             .put("help", HelpCommand.INSTANCE)
+            .put("reload", ReloadCommand.INSTANCE)
             .build();
 
     private static final List<String> COMMAND_NAMES = new ArrayList<>(COMMAND_MAP.keySet());
