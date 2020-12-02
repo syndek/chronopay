@@ -1,0 +1,31 @@
+# ChronoPay v4.0.0 Configuration File
+
+# If your server is running a later version than this, you may need to regenerate this file.
+# Simply delete it and start your server. An updated version will be created.
+
+# Some configuration values expect a time interval.
+# These must follow the format <quantity><qualifier> where:
+# - <quantity> is a positive integer.
+# - <qualifier> is one of S, M, H where:
+#   - S corresponds to seconds.
+#   - M corresponds to minutes.
+#   - H corresponds to hours.
+#
+# You can combine multiples values using '+'.
+#
+# Examples:
+# 45S :: 45 seconds
+# 30M :: 30 minutes
+# 1H+30M :: 90 minutes
+
+# The maximum number of payouts a player can receive within a cycle.
+# Must be a positive integer, or 0 for no payout cap.
+payout-cap: 10
+
+# The amount of time before the payout cap resets, and players who had previously hit the cap can receive payouts again.
+# Must be a time interval.
+payout-cap-reset-interval: 24H
+
+# The amount of time a player must be a valid payout candidate for in order to receive a payout.
+# Must be a time interval.
+payout-interval: 1H
