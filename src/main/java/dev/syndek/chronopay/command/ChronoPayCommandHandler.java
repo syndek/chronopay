@@ -26,16 +26,15 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ChronoPayCommandHandler implements CommandExecutor, TabCompleter {
     private static final Map<String, ChronoPayCommand> COMMAND_MAP =
         new ImmutableMap.Builder<String, ChronoPayCommand>()
             .put("help", HelpCommand.INSTANCE)
             .build();
+
+    private static final List<String> COMMAND_NAMES = new ArrayList<>(COMMAND_MAP.keySet());
 
     private final ChronoPayPlugin plugin;
 
@@ -79,8 +78,21 @@ public class ChronoPayCommandHandler implements CommandExecutor, TabCompleter {
         final @NotNull String alias,
         final @NotNull String[] args
     ) {
-        // TODO: Return tab complete options for correct command.
-        return Collections.emptyList();
+        if (args.length == 1) {
+            return COMMAND_NAMES;
+        }
+
+        final ChronoPayCommand commandToTabComplete = getCommandByName(args[0]);
+
+        if (commandToTabComplete == null) {
+            return Collections.emptyList();
+        }
+
+        return commandToTabComplete.getTabCompleteOptions(
+            plugin,
+            sender,
+            Arrays.asList(args).subList(1, args.length)
+        );
     }
 
     @Nullable
