@@ -17,31 +17,16 @@
 
 package dev.syndek.chronopay;
 
-import dev.syndek.chronopay.command.ChronoPayCommandHandler;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+public class ChronoPaySettings {
+    private final ChronoPayPlugin plugin;
 
-public class ChronoPayPlugin extends JavaPlugin {
-    private final ChronoPaySettings settings = new ChronoPaySettings(this);
-
-    @Override
-    public void onEnable() {
-        final ChronoPayCommandHandler handler = new ChronoPayCommandHandler(this);
-        final PluginCommand command = Objects.requireNonNull(getCommand("chronopay"));
-        command.setExecutor(handler);
-        command.setTabCompleter(handler);
+    public ChronoPaySettings(final @NotNull ChronoPayPlugin plugin) {
+        this.plugin = plugin;
     }
 
-    @Override
-    public void onDisable() {
+    public void load() {
 
-    }
-
-    @NotNull
-    public ChronoPaySettings getSettings() {
-        return settings;
     }
 }
