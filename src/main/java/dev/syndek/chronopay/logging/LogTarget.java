@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.syndek.chronopay;
+package dev.syndek.chronopay.logging;
 
 import org.jetbrains.annotations.NotNull;
 

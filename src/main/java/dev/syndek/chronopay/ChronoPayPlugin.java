@@ -19,6 +19,7 @@ package dev.syndek.chronopay;
 
 import dev.syndek.chronopay.api.ChronoPay;
 import dev.syndek.chronopay.command.ChronoPayCommandHandler;
+import dev.syndek.chronopay.logging.LogTarget;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;

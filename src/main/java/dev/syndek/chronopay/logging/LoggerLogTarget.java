@@ -15,27 +15,22 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.syndek.chronopay;
+package dev.syndek.chronopay.logging;
 
-import dev.syndek.chronopay.api.Settings;
-import dev.syndek.chronopay.logging.LogTarget;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class ChronoPaySettings implements Settings {
-    private final ChronoPayPlugin plugin;
+public class LoggerLogTarget implements LogTarget {
+    private final Logger logger;
 
-    public ChronoPaySettings(final @NotNull ChronoPayPlugin plugin) {
-        this.plugin = plugin;
+    public LoggerLogTarget(final @NotNull Logger logger) {
+        this.logger = logger;
     }
 
     @Override
-    public void load() {
-        load(plugin.getLogTarget());
-    }
-
-    public void load(final @NotNull LogTarget target) {
-        target.write(Level.INFO, "Loading ChronoPay configuration...");
+    public void write(@NotNull Level level, @NotNull String message) {
+        logger.log(level, message);
     }
 }
