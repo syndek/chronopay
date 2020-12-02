@@ -20,6 +20,7 @@ package dev.syndek.chronopay;
 import dev.syndek.chronopay.api.ChronoPay;
 import dev.syndek.chronopay.command.ChronoPayCommandHandler;
 import dev.syndek.chronopay.logging.LogTarget;
+import dev.syndek.chronopay.logging.LoggerLogTarget;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ import java.util.Objects;
 
 public class ChronoPayPlugin extends JavaPlugin implements ChronoPay {
     private final ChronoPaySettings settings = new ChronoPaySettings(this);
-    private final LogTarget logTarget = (level, message) -> getLogger().log(level, message);
+    private final LogTarget logTarget = new LoggerLogTarget(getLogger());
 
     @Override
     public void onEnable() {
