@@ -17,24 +17,10 @@
 
 package dev.syndek.chronopay;
 
-import dev.syndek.chronopay.api.Settings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
-public class ChronoPaySettings implements Settings {
-    private final ChronoPayPlugin plugin;
-
-    public ChronoPaySettings(final @NotNull ChronoPayPlugin plugin) {
-        this.plugin = plugin;
-    }
-
-    @Override
-    public void load() {
-        load(plugin.getLogTarget());
-    }
-
-    public void load(final @NotNull LogTarget target) {
-        target.write(Level.INFO, "Loading ChronoPay configuration...");
-    }
+public interface LogTarget {
+    void write(final @NotNull Level level, final @NotNull String message);
 }

@@ -27,6 +27,7 @@ import java.util.Objects;
 
 public class ChronoPayPlugin extends JavaPlugin implements ChronoPay {
     private final ChronoPaySettings settings = new ChronoPaySettings(this);
+    private final LogTarget logTarget = (level, message) -> getLogger().log(level, message);
 
     @Override
     public void onEnable() {
@@ -45,5 +46,10 @@ public class ChronoPayPlugin extends JavaPlugin implements ChronoPay {
     @NotNull
     public ChronoPaySettings getSettings() {
         return settings;
+    }
+
+    @NotNull
+    public LogTarget getLogTarget() {
+        return logTarget;
     }
 }
