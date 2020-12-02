@@ -17,6 +17,7 @@
 
 package dev.syndek.chronopay;
 
+import dev.syndek.chronopay.api.ChronoPay;
 import dev.syndek.chronopay.command.ChronoPayCommandHandler;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class ChronoPayPlugin extends JavaPlugin {
+public class ChronoPayPlugin extends JavaPlugin implements ChronoPay {
     private final ChronoPaySettings settings = new ChronoPaySettings(this);
 
     @Override
@@ -40,6 +41,7 @@ public class ChronoPayPlugin extends JavaPlugin {
 
     }
 
+    @Override
     @NotNull
     public ChronoPaySettings getSettings() {
         return settings;

@@ -15,20 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.syndek.chronopay;
+package dev.syndek.chronopay.api;
 
-import dev.syndek.chronopay.api.Settings;
-import org.jetbrains.annotations.NotNull;
-
-public class ChronoPaySettings implements Settings {
-    private final ChronoPayPlugin plugin;
-
-    public ChronoPaySettings(final @NotNull ChronoPayPlugin plugin) {
-        this.plugin = plugin;
-    }
-
-    @Override
-    public void load() {
-
-    }
+public interface Settings {
+    void load();
 }
