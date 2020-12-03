@@ -19,11 +19,14 @@ package dev.syndek.chronopay.command;
 
 import dev.syndek.chronopay.ChronoPayPlugin;
 import dev.syndek.chronopay.logging.CommandSenderLogTarget;
+import dev.syndek.chronopay.logging.LogTarget;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 
 public final class ReloadCommand implements ChronoPayCommand {
     public static final ReloadCommand INSTANCE = new ReloadCommand();
@@ -36,7 +39,13 @@ public final class ReloadCommand implements ChronoPayCommand {
         final @NotNull CommandSender sender,
         final @NotNull List<String> args
     ) {
-        plugin.getSettings().load(new CommandSenderLogTarget(sender, plugin.getLogger()));
+        final LogTarget target = new CommandSenderLogTarget(sender, plugin.getLogger());
+
+        try {
+            plugin.getSettings().load(target);
+        } catch (final InvalidConfigurationException exception) {
+            target.write(Level.SEVERE, "Failed to load configuration. Please correct any errors and try again.");
+        }
     }
 
     @Override

@@ -17,6 +17,14 @@
 
 package dev.syndek.chronopay.api;
 
+import org.bukkit.configuration.InvalidConfigurationException;
+
 public interface Settings {
-    void load();
+    void load() throws InvalidConfigurationException;
+
+    int getPayoutCap();
+
+    long getPayoutCapResetInterval();
+
+    long getPayoutInterval();
 }
